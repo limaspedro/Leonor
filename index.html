@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0B2545">
+  <meta name="description" content="Convite de aniversário — um reino de inverno encantado para celebrar a Leonor.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="O reino da Leonor abre as portas">
+  <meta property="og:description" content="3 anos de pura magia — convite de aniversário.">
+  <meta property="og:image" content="">
+  <title>O reino da Leonor abre as portas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@500;600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23fff' stroke-width='4' stroke-linecap='round'%3E%3Cpath d='M32 7v50M7 32h50M14 14l36 36M50 14L14 50'/%3E%3C/g%3E%3C/svg%3E">
+  <style>
+    :root {
+      --ice:#BFE3F2; --night:#0B2545; --lav:#D8D4F2; --snow:#fff;
+      --glass:rgba(255,255,255,.12); --line:rgba(255,255,255,.34);
+      --shadow:0 18px 55px rgba(2,25,55,.28);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0; color:var(--snow); font-family:"Nunito",sans-serif;
+      background:linear-gradient(180deg,#ccebf6 0%,#8dc7e1 27%,#334e78 62%,var(--night) 100%);
+      min-height:100vh; overflow-x:hidden;
+    }
+    body::before{
+      content:"";position:fixed;inset:0;pointer-events:none;opacity:.22;
+      background-image:radial-gradient(circle at 15% 20%,#fff 0 1px,transparent 2px),
+                       radial-gradient(circle at 75% 35%,#fff 0 1px,transparent 2px),
+                       radial-gradient(circle at 45% 80%,#fff 0 1px,transparent 2px);
+      background-size:180px 180px,230px 230px,260px 260px;
+      mix-blend-mode:screen;
+    }
+    #snow{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:5}
+    main{position:relative;z-index:2}
+    section{width:min(1080px,calc(100% - 32px));margin:auto;padding:82px 0}
+    .hero{min-height:92vh;display:grid;place-items:center;text-align:center;padding-top:100px}
+    .hero-inner{max-width:850px}
+    .eyebrow{font-size:.82rem;letter-spacing:.28em;text-transform:uppercase;opacity:.85}
+    h1,h2{font-family:"Cinzel Decorative",serif;font-weight:600}
+    h1{
+      font-size:clamp(2.25rem,8vw,5.7rem);line-height:1.12;margin:18px 0;
+      background:linear-gradient(90deg,#fff,#e6e2ff,#fff,#c8efff);
+      background-size:250% auto;-webkit-background-clip:text;background-clip:text;color:transparent;
+      animation:shimmer 8s linear infinite;
+      text-shadow:0 0 35px rgba(255,255,255,.18);
+    }
+    .hero p{font-size:clamp(1.15rem,3vw,1.6rem);margin:0 0 32px;color:#f6fbff}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 27px;
+      border:1px solid rgba(255,255,255,.65);border-radius:999px;color:var(--night);
+      background:linear-gradient(135deg,#fff,#dff6ff);font:700 1rem "Nunito",sans-serif;
+      text-decoration:none;cursor:pointer;box-shadow:0 8px 28px rgba(191,227,242,.24);
+      transition:transform .25s,box-shadow .25s,filter .25s
+    }
+    .btn:hover,.btn:focus-visible{transform:translateY(-3px);box-shadow:0 12px 38px rgba(191,227,242,.5);filter:brightness(1.04)}
+    .btn:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #fff;outline-offset:3px}
+    h2{text-align:center;font-size:clamp(1.65rem,5vw,2.7rem);margin:0 0 34px}
+    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .glass{
+      position:relative;padding:30px 22px;text-align:center;border:1px solid var(--line);
+      border-radius:26px;background:linear-gradient(135deg,rgba(255,255,255,.19),rgba(255,255,255,.07));
+      box-shadow:var(--shadow);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+      overflow:hidden;transition:transform .3s,box-shadow .3s
+    }
+    .glass::before{content:"";position:absolute;inset:1px;border-radius:25px;pointer-events:none;
+      background:linear-gradient(135deg,rgba(255,255,255,.28),transparent 35%,transparent 65%,rgba(216,212,242,.2));}
+    .glass:hover{transform:translateY(-7px);box-shadow:0 25px 65px rgba(3,26,58,.35)}
+    .icon{font-size:2rem;display:block;margin-bottom:10px}
+    .card-label{font-size:.82rem;text-transform:uppercase;letter-spacing:.16em;opacity:.8}
+    .card-value{font-size:1.35rem;font-weight:700;margin-top:6px}
+    .map-wrap{display:grid;gap:20px;grid-template-columns:1.25fr .75fr;align-items:stretch}
+    .map-card{min-height:300px;display:grid;place-items:center;text-align:center;
+      background:linear-gradient(145deg,rgba(191,227,242,.2),rgba(11,37,69,.4));}
+    .map-pin{font-size:3rem}
+    .map-card small{display:block;opacity:.75;margin-top:6px}
+    .rsvp{max-width:760px}
+    form{display:grid;gap:16px}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    label{display:grid;gap:7px;font-weight:700}
+    input,textarea,select{
+      width:100%;border:1px solid rgba(255,255,255,.42);border-radius:15px;
+      padding:13px 14px;background:rgba(255,255,255,.12);color:#fff;font:inherit;
+      backdrop-filter:blur(8px)
+    }
+    input::placeholder,textarea::placeholder{color:rgba(255,255,255,.7)}
+    select option{color:#0B2545}
+    textarea{min-height:110px;resize:vertical}
+    .thanks{display:none;text-align:center;padding:34px 20px}
+    .thanks.show{display:block;animation:rise .7s ease both}
+    .thanks h3{font-family:"Cinzel Decorative",serif;font-size:1.6rem;margin:0 0 8px}
+    footer{padding:45px 20px 60px;text-align:center;opacity:.9}
+    footer .flake{font-size:1.7rem;margin-top:12px}
+    .error{display:none;color:#ffe0e0;font-weight:700}
+    .error.show{display:block}
+    @keyframes shimmer{0%{background-position:0%}100%{background-position:250%}}
+    @keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+    @media (max-width:700px){
+      section{padding:66px 0}
+      .cards,.map-wrap,.grid2{grid-template-columns:1fr}
+      .hero{min-height:85vh;padding-top:70px}
+      .glass{padding:24px 18px}
+    }
+    @media (prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}.hero h1{animation:none}.glass,.btn{transition:none}
+    }
+  </style>
+</head>
+<body>
+<canvas id="snow" aria-hidden="true"></canvas>
+
+<main>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-inner">
+      <div class="eyebrow">Um conto de inverno</div>
+      <h1 id="hero-title"></h1>
+      <p id="hero-subtitle"></p>
+      <a class="btn" href="#rsvp">Confirmar presença</a>
+    </div>
+  </section>
+
+  <section id="detalhes" class="reveal" aria-labelledby="details-title">
+    <h2 id="details-title">Detalhes da festa</h2>
+    <div class="cards">
+      <article class="glass"><span class="icon" aria-hidden="true">❄</span><div class="card-label">Data</div><div class="card-value" id="date"></div></article>
+      <article class="glass"><span class="icon" aria-hidden="true">✦</span><div class="card-label">Hora</div><div class="card-value" id="time"></div></article>
+      <article class="glass"><span class="icon" aria-hidden="true">⌖</span><div class="card-label">Local</div><div class="card-value" id="venue"></div></article>
+    </div>
+  </section>
+
+  <section class="reveal" aria-labelledby="map-title">
+    <h2 id="map-title">Onde nos encontramos</h2>
+    <div class="map-wrap">
+      <div class="glass map-card">
+        <div><div class="map-pin" aria-hidden="true">⌖</div><strong id="map-name"></strong><small>Endereço editável no CONFIG</small></div>
+      </div>
+      <div class="glass" style="display:flex;flex-direction:column;justify-content:center">
+        <p style="font-size:1.1rem;line-height:1.7">Prepara a tua capa mais quentinha e vem celebrar connosco neste pequeno reino de gelo.</p>
+        <a id="map-link" class="btn" target="_blank" rel="noopener" href="#">Ver no Google Maps</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="rsvp" class="rsvp reveal" aria-labelledby="rsvp-title">
+    <h2 id="rsvp-title">Confirma a tua presença</h2>
+    <div class="glass">
+      <form id="rsvp-form">
+        <label>Nome <input name="nome" autocomplete="name" required placeholder="O teu nome"></label>
+        <div class="grid2">
+          <label>Número de adultos <input name="adultos" type="number" min="0" max="20" value="1" required></label>
+          <label>Número de crianças <input name="criancas" type="number" min="0" max="20" value="1" required></label>
+        </div>
+        <label>Alergias/notas <textarea name="notas" placeholder="Alguma informação importante?"></textarea></label>
+        <p id="form-error" class="error" role="alert"></p>
+        <button class="btn" type="submit">Confirmar</button>
+      </form>
+      <div id="thanks" class="thanks" aria-live="polite">
+        <div style="font-size:2.6rem">✧ ❄ ✧</div>
+        <h3>Presença confirmada!</h3>
+        <p>Obrigada por fazeres parte da magia do reino da Leonor.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div>Com carinho, família Lima</div>
+  <div class="flake" aria-hidden="true">❄</div>
+</footer>
+
+<script>
+/*
+ * EDITA APENAS ESTE OBJETO para personalizar o convite.
+ * RSVP_ENDPOINT: deixa vazio para demonstração local ou coloca aqui o endpoint
+ * de um serviço como Formspree/Google Forms.
+ */
+const CONFIG = {
+  nome: "Leonor",
+  idade: 3,
+  data: "11 de outubro",
+  hora: "15h00",
+  local: "Clube União Brenhense",
+  mapa: {
+    nome: "Clube União Brenhense",
+    url: "https://www.google.com/maps/search/?api=1&query=Clube%20Uni%C3%A3o%20Brenhense"
+  },
+  RSVP_ENDPOINT: ""
+};
+
+document.title = `O reino da ${CONFIG.nome} abre as portas`;
+document.getElementById("hero-title").textContent = `O reino da ${CONFIG.nome} abre as portas`;
+document.getElementById("hero-subtitle").textContent = `${CONFIG.idade} anos de pura magia`;
+document.getElementById("date").textContent = CONFIG.data;
+document.getElementById("time").textContent = CONFIG.hora;
+document.getElementById("venue").textContent = CONFIG.local;
+document.getElementById("map-name").textContent = CONFIG.mapa.nome;
+document.getElementById("map-link").href = CONFIG.mapa.url;
+
+const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* Entrada das secções */
+if (!reduced && "IntersectionObserver" in window) {
+  const style = document.createElement("style");
+  style.textContent = ".reveal{opacity:0;transform:translateY(28px);transition:opacity .75s ease,transform .75s ease}.reveal.visible{opacity:1;transform:none}";
+  document.head.appendChild(style);
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("visible"); observer.unobserve(e.target); } });
+  }, {threshold:.14});
+  document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+} else {
+  document.querySelectorAll(".reveal").forEach(el => el.classList.add("visible"));
+}
+
+/* RSVP */
+const form = document.getElementById("rsvp-form");
+const thanks = document.getElementById("thanks");
+const error = document.getElementById("form-error");
+
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  error.classList.remove("show");
+  const data = new FormData(form);
+
+  if (!CONFIG.RSVP_ENDPOINT) {
+    form.hidden = true;
+    thanks.classList.add("show");
+    burstSnow(45);
+    return;
+  }
+
+  const button = form.querySelector("button");
+  button.disabled = true;
+  button.textContent = "A enviar…";
+
+  try {
+    const response = await fetch(CONFIG.RSVP_ENDPOINT, {
+      method: "POST",
+      body: data,
+      headers: {"Accept":"application/json"}
+    });
+    if (!response.ok) throw new Error("Falha no envio");
+    form.hidden = true;
+    thanks.classList.add("show");
+    burstSnow(60);
+  } catch (err) {
+    error.textContent = "Não foi possível enviar agora. Tenta novamente, por favor.";
+    error.classList.add("show");
+    button.disabled = false;
+    button.textContent = "Confirmar";
+  }
+});
+
+/* Neve em canvas, com profundidade e pausa em movimento reduzido */
+const canvas = document.getElementById("snow");
+const ctx = canvas.getContext("2d");
+let flakes = [], burst = [];
+
+function resizeSnow() {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  canvas.width = innerWidth * dpr; canvas.height = innerHeight * dpr;
+  canvas.style.width = innerWidth + "px"; canvas.style.height = innerHeight + "px";
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  flakes = Array.from({length: Math.min(95, Math.floor(innerWidth/10))}, makeFlake);
+}
+function makeFlake() {
+  const depth = Math.random();
+  return {x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:.7+depth*2.4,
+          speed:.35+depth*1.15,drift:(Math.random()-.5)*.35,phase:Math.random()*Math.PI*2,alpha:.25+depth*.55};
+}
+function drawSnow() {
+  ctx.clearRect(0,0,innerWidth,innerHeight);
+  for (const f of flakes) {
+    f.y += f.speed; f.x += f.drift + Math.sin(f.phase + f.y*.008)*.18;
+    if (f.y > innerHeight+8) { f.y=-8; f.x=Math.random()*innerWidth; }
+    if (f.x < -8) f.x=innerWidth+8; if (f.x > innerWidth+8) f.x=-8;
+    ctx.globalAlpha=f.alpha; ctx.fillStyle="#fff"; ctx.beginPath(); ctx.arc(f.x,f.y,f.r,0,Math.PI*2); ctx.fill();
+  }
+  for (const f of burst) {
+    f.y+=f.vy; f.x+=f.vx; f.vy+=.045; f.life-=.012;
+    ctx.globalAlpha=Math.max(0,f.life); ctx.fillStyle="#fff"; ctx.beginPath(); ctx.arc(f.x,f.y,f.r,0,Math.PI*2); ctx.fill();
+  }
+  burst=burst.filter(f=>f.life>0); ctx.globalAlpha=1;
+  if (!reduced) requestAnimationFrame(drawSnow);
+}
+function burstSnow(n) {
+  for(let i=0;i<n;i++) burst.push({x:innerWidth/2+(Math.random()-.5)*260,y:innerHeight*.42,r:1+Math.random()*2.5,
+    vx:(Math.random()-.5)*3,vy:-1-Math.random()*3,life:1});
+}
+addEventListener("resize", resizeSnow);
+resizeSnow();
+if (!reduced) drawSnow(); else {
+  ctx.globalAlpha=.55; flakes.slice(0,28).forEach(f=>{ctx.fillStyle="#fff";ctx.beginPath();ctx.arc(f.x,f.y,f.r,0,Math.PI*2);ctx.fill()});ctx.globalAlpha=1;
+}
+</script>
+</body>
+</html>
