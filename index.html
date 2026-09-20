@@ -74,10 +74,27 @@
     .card-label{font-size:.82rem;text-transform:uppercase;letter-spacing:.16em;opacity:.8}
     .card-value{font-size:1.35rem;font-weight:700;margin-top:6px}
     .map-wrap{display:grid;gap:20px;grid-template-columns:1.25fr .75fr;align-items:stretch}
-    .map-card{min-height:300px;display:grid;place-items:center;text-align:center;
-      background:linear-gradient(145deg,rgba(191,227,242,.2),rgba(11,37,69,.4));}
-    .map-pin{font-size:3rem}
-    .map-card small{display:block;opacity:.75;margin-top:6px}
+    .map-card{
+      min-height:300px;position:relative;padding:0;
+      background:linear-gradient(145deg,rgba(191,227,242,.2),rgba(11,37,69,.4));
+    }
+    /* iframe do Google Maps: preenche todo o cartão, o cartão já tem
+       overflow:hidden e border-radius (herdados de .glass), por isso
+       a imagem aérea fica automaticamente com os cantos arredondados. */
+    .map-embed{
+      position:absolute;inset:0;width:100%;height:100%;border:0;display:block;
+      filter:saturate(1.05) brightness(.97);
+    }
+    /* legenda sobreposta em baixo, com fundo semi-transparente para
+       o texto continuar legível por cima da imagem do mapa */
+    .map-overlay{
+      position:absolute;left:14px;right:14px;bottom:14px;z-index:1;
+      padding:12px 16px;border-radius:16px;text-align:left;
+      background:rgba(11,37,69,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+      border:1px solid rgba(255,255,255,.25);
+    }
+    .map-overlay strong{display:block;font-size:1rem}
+    .map-overlay small{display:block;opacity:.8;margin-top:2px}
     .rsvp{max-width:760px}
     form{display:grid;gap:16px}
     .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
@@ -100,18 +117,30 @@
     .error.show{display:block}
     /* --- Retrato da aniversariante + personagens --- */
     .portrait-section{padding:20px 0 10px}
-    .portrait-row{
-      display:flex;align-items:center;justify-content:center;gap:clamp(10px,4vw,46px);
-    }
+   .portrait-row{
+	display:flex;flex-wrap:nowrap;align-items:center;justify-content:center;	
+	gap:clamp(4px,1.6vw,22px);
+	}
+    /* Todas as personagens partilham a MESMA caixa (largura e altura),
+       independentemente do tamanho/recorte da imagem original.
+       object-fit:contain garante que a personagem preenche a caixa
+       sem esticar nem cortar. Se alguma imagem tiver muita margem
+       transparente à volta e parecer mais pequena que as outras,
+       ajusta o "--char-scale" dessa imagem (ver exemplos em baixo). */
     .side-char{
-      width:clamp(78px,13vw,150px);flex:0 0 auto;filter:drop-shadow(0 10px 22px rgba(2,25,55,.35));
-      transition:transform .35s ease;
+      --char-scale:1;
+      width:clamp(110px,15vw,170px);height:clamp(110px,15vw,170px);
+      flex:0 1 170px;min-width:38px;aspect-ratio:1/1;
+      filter:drop-shadow(0 10px 20px rgba(2,25,55,.35));
     }
-    .side-char img{width:100%;display:block}
+    .side-char img{
+      width:100%;height:100%;object-fit:contain;display:block;
+      transform:scale(var(--char-scale));
+    }
     .side-char.left{transform:rotate(-4deg)}
-    .side-char.right{transform:rotate(4deg) scaleX(-1)}
+    .side-char.right{transform:rotate(4deg)}
     .portrait-circle{
-      position:relative;flex:0 0 auto;width:clamp(150px,26vw,220px);height:clamp(150px,26vw,220px);
+      position:relative;flex:0 0 auto;width:clamp(150px,22vw,200px);height:clamp(150px,22vw,200px);
       border-radius:50%;overflow:hidden;
       background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.35),rgba(255,255,255,.06) 60%),
                  linear-gradient(160deg,rgba(191,227,242,.55),rgba(216,212,242,.4));
@@ -126,8 +155,8 @@
     }
     .portrait-caption{text-align:center;margin-top:16px;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase;opacity:.8}
     @media (max-width:640px){
-      .portrait-row{gap:10px}
-      .side-char{width:clamp(64px,18vw,100px)}
+      .side-char{width:clamp(70px,19vw,100px);height:clamp(70px,19vw,100px)}
+      .portrait-circle{width:clamp(120px,30vw,160px);height:clamp(120px,30vw,160px)}
     }
     @keyframes shimmer{0%{background-position:0%}100%{background-position:250%}}
     @keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
@@ -150,22 +179,14 @@
     <div class="hero-inner">
       <div class="eyebrow">Um conto de inverno</div>
       <h1 id="hero-title"></h1>
-      <p id="hero-subtitle"></p>
-      <a class="btn" href="#rsvp">Confirmar presença</a>
-    </div>
-  </section>
-
-  <!--
-    RETRATO + PERSONAGENS
-    - Substitui o "src" da .portrait-photo pela foto da tua filha (ex: assets/foto-leonor.jpg).
-      Enquanto o ficheiro não existir, mostra automaticamente um placeholder (ícone de câmara).
-    - As imagens assets/personagem-boneco-1.png e assets/personagem-boneco-2.png são genéricas;
-      basta substituíres esses dois ficheiros pelas imagens finais (mesmo nome/caminho) para atualizar o convite.
-  -->
-  <section class="portrait-section reveal" aria-labelledby="portrait-title">
-    <div class="portrait-row">
+	  
+      <div class="portrait-section reveal" aria-labelledby="portrait-title">
+	     <div class="portrait-row">
+		 <div class="side-char left">
+			<img src="assets/o1.png" alt="Olaf" loading="lazy">
+		</div>
       <div class="side-char left">
-        <img src="assets/personagem-boneco-1.png" alt="Personagem decorativa" loading="lazy">
+        <img src="assets/f1.png" alt="Elsa" loading="lazy" style="--char-scale:1.3">
       </div>
       <div class="portrait-circle">
         <div class="portrait-placeholder">
@@ -175,15 +196,41 @@
           </svg>
           <small>Foto aqui</small>
         </div>
-        <img class="portrait-photo" src="assets/foto-leonor.jpg" alt="Foto da Leonor" loading="lazy"
+        <img class="portrait-photo" src="assets/L1.jpg" alt="Foto da Leonor" loading="lazy"
              onerror="this.style.display='none'">
       </div>
       <div class="side-char right">
-        <img src="assets/personagem-boneco-2.png" alt="Personagem decorativa" loading="lazy">
+        <img src="assets/a1.png" alt="Anna" loading="lazy" style="--char-scale:1.3">
       </div>
+      <div class="side-char right">
+        <img src="assets/k1.png" alt="Kristoff e Sven" loading="lazy" style="--char-scale:1.15">
+      </div>
+    </div></div>
+	  
+	  <p id="hero-subtitle"></p>
+      <a class="btn" href="#rsvp">Confirmar presença</a>
     </div>
-    <p id="portrait-title" class="portrait-caption">A rainha do gelo faz 3 anos</p>
   </section>
+
+  <!--
+    RETRATO + PERSONAGENS
+    - Todas as personagens partilham a MESMA caixa (.side-char, definida no
+      CSS) e usam object-fit:contain, portanto a "moldura" é sempre igual.
+    - PORQUÊ ALGUMAS AINDA PARECEM MAIS PEQUENAS?
+      Os PNGs que descarregaste não têm todos a mesma quantidade de
+      espaço transparente à volta da personagem (ex: o PNG do Olaf pode
+      estar bem "colado" às bordas, enquanto o da Elsa pode ter uma
+      margem enorme). O CSS não sabe recortar esse espaço vazio sozinho,
+      por isso, para compensar, cada <img> tem uma variável
+      "--char-scale" que aumenta o zoom só daquela imagem, sem afetar
+      as restantes.
+    - COMO AJUSTAR: muda o número em style="--char-scale:1.3" (linha a
+      linha) até a personagem parecer do mesmo tamanho que as outras.
+      1 = tamanho normal, 1.3 = 30% maior, 1.5 = 50% maior, etc.
+      Os valores abaixo (1.3 / 1.3 / 1.15) são só um ponto de partida —
+      ajusta-os ao olho consoante as tuas imagens reais.
+  -->
+  
 
   <section id="detalhes" class="reveal" aria-labelledby="details-title">
     <h2 id="details-title">Detalhes da festa</h2>
@@ -198,7 +245,15 @@
     <h2 id="map-title">Onde nos encontramos</h2>
     <div class="map-wrap">
       <div class="glass map-card">
-        <div><div class="map-pin" aria-hidden="true">⌖</div><strong id="map-name"></strong><small>Endereço editável no CONFIG</small></div>
+        <!-- Vista aérea/satélite do Google Maps (sem precisar de chave de API).
+             O "src" é definido em JavaScript a partir de CONFIG.mapa.endereco,
+             por isso basta editares o endereço no CONFIG mais abaixo. -->
+        <iframe id="map-embed" class="map-embed" title="Localização no mapa" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        <div class="map-overlay">
+          <strong id="map-name"></strong>
+          <small>Endereço editável no CONFIG</small>
+        </div>
       </div>
       <div class="glass" style="display:flex;flex-direction:column;justify-content:center">
         <p style="font-size:1.1rem;line-height:1.7">Prepara a tua capa mais quentinha e vem celebrar connosco neste pequeno reino de gelo.</p>
@@ -247,12 +302,15 @@
 const CONFIG = {
   nome: "Leonor",
   idade: 3,
-  data: "10 de Outubro",
+  data: "11 de outubro",
   hora: "15h00",
-  local: "Jardim de Infância Misericórdia",
+  local: "Jardim de Infância Misericórdia - Obra da Figueira",
   mapa: {
     nome: "Jardim de Infância Misericórdia - Obra da Figueira",
-    url: "https://www.google.com/maps/place/Jardim+de+Inf%C3%A2ncia+Miseric%C3%B3rdia+-+Obra+da+Figueira/@40.1524649,-8.855514,201m/data=!3m1!1e3!4m10!1m2!2m1!1smesesirordia+figuiera+daf+zo!3m6!1s0xd22370049ace8df:0x634591e9252a549c!8m2!3d40.1527629!4d-8.8550306!15sChxtaXNlcmljw7NyZGlhIGZpZ3VlaXJhIGRhIHpvkgEMa2luZGVyZ2FydGVu4AEA!16s%2Fg%2F11vppvy2wm?entry=ttu&g_ep=EgoyMDI2MDkxNi4wIKXMDSoASAFQAw%3D%3D"
+    // Escreve aqui o endereço tal como o procurarias no Google Maps
+    // (nome do local, rua, cidade...). É usado tanto para o link
+    // "Ver no Google Maps" como para a imagem aérea/satélite embutida.
+    endereco: "Jardim de Infância Misericórdia - Obra da Figueira, Figueira da Foz"
   },
   RSVP_ENDPOINT: "https://api.web3forms.com/submit",
   RSVP_ACCESS_KEY: "2f1430ad-cb77-4960-a9c5-bd26554010c5"
@@ -265,7 +323,11 @@ document.getElementById("date").textContent = CONFIG.data;
 document.getElementById("time").textContent = CONFIG.hora;
 document.getElementById("venue").textContent = CONFIG.local;
 document.getElementById("map-name").textContent = CONFIG.mapa.nome;
-document.getElementById("map-link").href = CONFIG.mapa.url;
+const enderecoCodificado = encodeURIComponent(CONFIG.mapa.endereco);
+// Link "Ver no Google Maps" (abre o Google Maps numa nova aba)
+document.getElementById("map-link").href = `https://www.google.com/maps/search/?api=1&query=${enderecoCodificado}`;
+// Imagem aérea/satélite embutida (t=k = satélite; usa t=m para mapa normal)
+document.getElementById("map-embed").src = `https://www.google.com/maps?q=${enderecoCodificado}&t=k&z=17&output=embed`;
 
 const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
