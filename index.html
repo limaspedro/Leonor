@@ -95,8 +95,40 @@
     .thanks h3{font-family:"Cinzel Decorative",serif;font-size:1.6rem;margin:0 0 8px}
     footer{padding:45px 20px 60px;text-align:center;opacity:.9}
     footer .flake{font-size:1.7rem;margin-top:12px}
+    .botcheck{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important}
     .error{display:none;color:#ffe0e0;font-weight:700}
     .error.show{display:block}
+    /* --- Retrato da aniversariante + personagens --- */
+    .portrait-section{padding:20px 0 10px}
+    .portrait-row{
+      display:flex;align-items:center;justify-content:center;gap:clamp(10px,4vw,46px);
+    }
+    .side-char{
+      width:clamp(78px,13vw,150px);flex:0 0 auto;filter:drop-shadow(0 10px 22px rgba(2,25,55,.35));
+      transition:transform .35s ease;
+    }
+    .side-char img{width:100%;display:block}
+    .side-char.left{transform:rotate(-4deg)}
+    .side-char.right{transform:rotate(4deg) scaleX(-1)}
+    .portrait-circle{
+      position:relative;flex:0 0 auto;width:clamp(150px,26vw,220px);height:clamp(150px,26vw,220px);
+      border-radius:50%;overflow:hidden;
+      background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.35),rgba(255,255,255,.06) 60%),
+                 linear-gradient(160deg,rgba(191,227,242,.55),rgba(216,212,242,.4));
+      border:4px solid rgba(255,255,255,.75);box-shadow:0 18px 45px rgba(2,25,55,.4),inset 0 0 30px rgba(255,255,255,.25);
+    }
+    .portrait-circle .portrait-placeholder{
+      position:absolute;inset:0;display:grid;place-items:center;gap:6px;text-align:center;color:#fff;opacity:.85;
+    }
+    .portrait-circle .portrait-placeholder small{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;opacity:.85}
+    .portrait-circle img.portrait-photo{
+      position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    }
+    .portrait-caption{text-align:center;margin-top:16px;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase;opacity:.8}
+    @media (max-width:640px){
+      .portrait-row{gap:10px}
+      .side-char{width:clamp(64px,18vw,100px)}
+    }
     @keyframes shimmer{0%{background-position:0%}100%{background-position:250%}}
     @keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
     @media (max-width:700px){
@@ -121,6 +153,36 @@
       <p id="hero-subtitle"></p>
       <a class="btn" href="#rsvp">Confirmar presença</a>
     </div>
+  </section>
+
+  <!--
+    RETRATO + PERSONAGENS
+    - Substitui o "src" da .portrait-photo pela foto da tua filha (ex: assets/foto-leonor.jpg).
+      Enquanto o ficheiro não existir, mostra automaticamente um placeholder (ícone de câmara).
+    - As imagens assets/personagem-boneco-1.png e assets/personagem-boneco-2.png são genéricas;
+      basta substituíres esses dois ficheiros pelas imagens finais (mesmo nome/caminho) para atualizar o convite.
+  -->
+  <section class="portrait-section reveal" aria-labelledby="portrait-title">
+    <div class="portrait-row">
+      <div class="side-char left">
+        <img src="assets/personagem-boneco-1.png" alt="Personagem decorativa" loading="lazy">
+      </div>
+      <div class="portrait-circle">
+        <div class="portrait-placeholder">
+          <svg class="cam" width="1em" height="1em" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="width:clamp(2.2rem,6vw,3.2rem);height:clamp(2.2rem,6vw,3.2rem)">
+            <path d="M4 8.5C4 7.67157 4.67157 7 5.5 7H8L9.2 5.2C9.42 4.88 9.79 4.7 10.18 4.7H13.82C14.21 4.7 14.58 4.88 14.8 5.2L16 7H18.5C19.3284 7 20 7.67157 20 8.5V17.5C20 18.3284 19.3284 19 18.5 19H5.5C4.67157 19 4 18.3284 4 17.5V8.5Z" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/>
+            <circle cx="12" cy="13" r="3.4" stroke="#fff" stroke-width="1.6"/>
+          </svg>
+          <small>Foto aqui</small>
+        </div>
+        <img class="portrait-photo" src="assets/foto-leonor.jpg" alt="Foto da Leonor" loading="lazy"
+             onerror="this.style.display='none'">
+      </div>
+      <div class="side-char right">
+        <img src="assets/personagem-boneco-2.png" alt="Personagem decorativa" loading="lazy">
+      </div>
+    </div>
+    <p id="portrait-title" class="portrait-caption">A rainha do gelo faz 3 anos</p>
   </section>
 
   <section id="detalhes" class="reveal" aria-labelledby="details-title">
@@ -149,6 +211,10 @@
     <h2 id="rsvp-title">Confirma a tua presença</h2>
     <div class="glass">
       <form id="rsvp-form">
+        <input type="hidden" name="access_key" id="access-key">
+        <input type="hidden" name="subject" value="Nova confirmação — Aniversário da Leonor">
+        <input type="hidden" name="from_name" value="Convite de aniversário da Leonor">
+        <input type="text" name="botcheck" class="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
         <label>Nome <input name="nome" autocomplete="name" required placeholder="O teu nome"></label>
         <div class="grid2">
           <label>Número de adultos <input name="adultos" type="number" min="0" max="20" value="1" required></label>
@@ -183,12 +249,13 @@ const CONFIG = {
   idade: 3,
   data: "11 de outubro",
   hora: "15h00",
-  local: "A defenir",
+  local: "Clube União Brenhense",
   mapa: {
-    nome: "A defenir",
-    url: "https://www.google.com/maps/"
+    nome: "Clube União Brenhense",
+    url: "https://www.google.com/maps/search/?api=1&query=Clube%20Uni%C3%A3o%20Brenhense"
   },
-  RSVP_ENDPOINT: ""
+  RSVP_ENDPOINT: "https://api.web3forms.com/submit",
+  RSVP_ACCESS_KEY: "COLOCA_A_TUA_ACCESS_KEY_AQUI"
 };
 
 document.title = `O reino da ${CONFIG.nome} abre as portas`;
@@ -215,42 +282,40 @@ if (!reduced && "IntersectionObserver" in window) {
   document.querySelectorAll(".reveal").forEach(el => el.classList.add("visible"));
 }
 
-/* RSVP */
+/* RSVP — Web3Forms */
 const form = document.getElementById("rsvp-form");
 const thanks = document.getElementById("thanks");
 const error = document.getElementById("form-error");
+document.getElementById("access-key").value = CONFIG.RSVP_ACCESS_KEY;
+
+function confirmationSummary(data) {
+  const now = new Intl.DateTimeFormat("pt-PT", {dateStyle:"short", timeStyle:"short"}).format(new Date());
+  return `Confirmação recebida de ${data.get("nome")} — adultos: ${data.get("adultos")}, crianças: ${data.get("criancas")}, alergias/notas: ${data.get("notas") || "Nenhuma"}. Confirmado em ${now}.`;
+}
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
   error.classList.remove("show");
   const data = new FormData(form);
-
-  if (!CONFIG.RSVP_ENDPOINT) {
-    form.hidden = true;
-    thanks.classList.add("show");
-    burstSnow(45);
+  if (data.get("botcheck")) return;
+  data.delete("botcheck");
+  if (!CONFIG.RSVP_ACCESS_KEY || CONFIG.RSVP_ACCESS_KEY === "COLOCA_A_TUA_ACCESS_KEY_AQUI") {
+    error.textContent = "O formulário ainda não está configurado. Coloca a Access Key do Web3Forms no CONFIG.";
+    error.classList.add("show");
     return;
   }
-
+  data.append("confirmation_summary", confirmationSummary(data));
   const button = form.querySelector("button");
-  button.disabled = true;
-  button.textContent = "A enviar…";
-
+  const originalText = button.textContent;
+  button.disabled = true; button.textContent = "A enviar…";
   try {
-    const response = await fetch(CONFIG.RSVP_ENDPOINT, {
-      method: "POST",
-      body: data,
-      headers: {"Accept":"application/json"}
-    });
-    if (!response.ok) throw new Error("Falha no envio");
-    form.hidden = true;
-    thanks.classList.add("show");
-    burstSnow(60);
+    const response = await fetch(CONFIG.RSVP_ENDPOINT, {method:"POST", body:data, headers:{"Accept":"application/json"}});
+    const result = await response.json();
+    if (!response.ok || !result.success) throw new Error(result.message || "Falha no envio");
+    form.hidden = true; thanks.classList.add("show"); burstSnow(60);
   } catch (err) {
     error.textContent = "Não foi possível enviar agora. Tenta novamente, por favor.";
-    error.classList.add("show");
-    button.disabled = false;
-    button.textContent = "Confirmar";
+    error.classList.add("show"); button.disabled = false; button.textContent = originalText;
   }
 });
 
