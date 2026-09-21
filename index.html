@@ -271,6 +271,7 @@
         <input type="hidden" name="from_name" value="Convite de aniversário da Leonor">
         <input type="text" name="botcheck" class="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
         <label>Nome <input name="nome" autocomplete="name" required placeholder="O teu nome"></label>
+		<label>Contacto: <input name="contacto" placeholder="O teu contacto ou dos papás" required></label>
         <div class="grid2">
           <label>Número de adultos <input name="adultos" type="number" min="0" max="20" value="1" required></label>
           <label>Número de crianças <input name="criancas" type="number" min="0" max="20" value="1" required></label>
@@ -283,6 +284,7 @@
         <div style="font-size:2.6rem">✧ ❄ ✧</div>
         <h3>Presença confirmada!</h3>
         <p>Obrigada por fazeres parte da magia do reino da Leonor.</p>
+		<p>Fica o contacto do meu papá: 916671775"
       </div>
     </div>
   </section>
@@ -294,11 +296,7 @@
 </footer>
 
 <script>
-/*
- * EDITA APENAS ESTE OBJETO para personalizar o convite.
- * RSVP_ENDPOINT: deixa vazio para demonstração local ou coloca aqui o endpoint
- * de um serviço como Formspree/Google Forms.
- */
+
 const CONFIG = {
   nome: "Leonor",
   idade: 3,
@@ -307,9 +305,6 @@ const CONFIG = {
   local: "Jardim de Infância Misericórdia - Obra da Figueira",
   mapa: {
     nome: "Jardim de Infância Misericórdia - Obra da Figueira",
-    // Escreve aqui o endereço tal como o procurarias no Google Maps
-    // (nome do local, rua, cidade...). É usado tanto para o link
-    // "Ver no Google Maps" como para a imagem aérea/satélite embutida.
     endereco: "Jardim de Infância Misericórdia - Obra da Figueira, Figueira da Foz"
   },
   RSVP_ENDPOINT: "https://api.web3forms.com/submit",
@@ -352,7 +347,7 @@ document.getElementById("access-key").value = CONFIG.RSVP_ACCESS_KEY;
 
 function confirmationSummary(data) {
   const now = new Intl.DateTimeFormat("pt-PT", {dateStyle:"short", timeStyle:"short"}).format(new Date());
-  return `Confirmação recebida de ${data.get("nome")} — adultos: ${data.get("adultos")}, crianças: ${data.get("criancas")}, alergias/notas: ${data.get("notas") || "Nenhuma"}. Confirmado em ${now}.`;
+  return `Confirmação recebida de ${data.get("nome")} — adultos: ${data.get("adultos")}, crianças: ${data.get("criancas")}, Contacto: ${data.get("contacto")}, alergias/notas: ${data.get("notas") || "Nenhuma"}. Confirmado em ${now}.`;
 }
 
 form.addEventListener("submit", async (event) => {
